@@ -2,9 +2,13 @@
 
 ## Configurando o projeto
 Instale o Firebase-Tools globalmente em seu computador
+
 > npm install -g firebase-tools
+
 Após isso faça login no Firebase
+
 > firebase login
+
 Crie dentro da pasta 'utils' um arquivo 'config.js' que exporte as configurações do seu projeto no firebase. Ex:
 
 ...

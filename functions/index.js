@@ -1,9 +1,12 @@
 const functions = require('firebase-functions');
 const app = require('express')();
 const FBAuth = require('./util/fbAuth');
+const cors = require('cors');
 const { db } = require('./util/admin');
 const { getAllScreams, postOneScream, getScream, commentOnScream, likeScream, unlikeScream, deleteScream } = require('./handlers/screams');
 const { signup, login, uploadImage, addUserDetails, getAuthenticadUser, getUserDetails, markNotificationsRead } = require('./handlers/users');
+
+app.use(cors());
 
 // Scream routes
 app.get('/screams', getAllScreams);
@@ -16,7 +19,7 @@ app.get('/scream/:screamId/unlike', FBAuth, unlikeScream);
 
 // Users routes
 app.post('/signup', signup);
-app.post('/login', login)
+app.post('/login', login);
 app.post('/user/image', FBAuth, uploadImage);
 app.post('/user', FBAuth, addUserDetails);
 app.get('/user', FBAuth, getAuthenticadUser);
@@ -25,9 +28,6 @@ app.post('/notifications', FBAuth, markNotificationsRead);
 
 // https://baseurl/api/
 exports.api = functions.https.onRequest(app);
-
-
-
 
 exports.createNotificationOnComment = functions
 .firestore.document('comments/{id}')
@@ -49,7 +49,6 @@ exports.createNotificationOnComment = functions
         console.error(err);
     })
 });
-
 
 exports.createNotificationOnLike = functions
     .firestore.document('likes/{id}')
